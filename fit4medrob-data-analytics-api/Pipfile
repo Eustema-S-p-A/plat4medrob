@@ -1,0 +1,26 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+fastapi = "*"
+requests = "*"
+pymongo = "*"
+pandas = "*"
+numpy = "==1.26.3"
+python-dotenv = "*"
+uvicorn = "*"
+motor = "*"
+python-multipart = "*"
+python-jose = "*"
+scikit-learn = "*"
+fpdf2 = "*"
+matplotlib = "*"
+seaborn = "*"
+aiohttp = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"

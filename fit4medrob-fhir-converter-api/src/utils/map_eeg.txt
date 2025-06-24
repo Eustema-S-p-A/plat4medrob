@@ -1,0 +1,72 @@
+$device := (
+  Instance: $resourceId('Device?identifier=EEG_'&performer)
+  InstanceOf: Device
+  * identifier 
+    * value = 'EEG_'& performer
+  * deviceName 
+    * name = "EEG"
+  * owner 
+    * reference = $literal('Organization?identifier='&performer)
+);
+
+$document := (
+    Instance: $resourceId('DocumentReference?identifier=EEG_' & patientcode & "_" & encounter)
+    InstanceOf: DocumentReference
+    * identifier
+      * value = "EEG_" & patientcode & "_" & encounter & "_" & filename
+    * content
+      * attachment
+        * url = path
+    * subject
+      * reference = $literal('Patient?identifier='&patientcode) 
+    * status = "current"
+);
+
+$observations := (
+  Instance: $resourceId('Observation?identifier=EEG_' & patientcode & "_" & encounter)
+  InstanceOf: Observation
+  * identifier
+    * value = "EEG_" & patientcode & "_" & encounter & "_" & filename
+  * status = "final"
+  * code 
+    * coding 
+      * code = "24708-6"
+      * display = "Electroencephalogram study"
+      * system =  "http://loinc.org"
+    * text = "EEG record"
+  * subject
+    * reference = $literal('Patient?identifier='&patientcode) 
+  * effectiveDateTime = startdate
+  * performer 
+    * reference = $literal('Organization?identifier='&performer) 
+  * encounter
+    * reference = $literal('Encounter?identifier='&encounter) 
+  * device 
+    * reference = $exists($device.id) ? $literal('Device?identifier='&($device.identifier.value)) : $reference($device)
+  * derivedFrom
+    * reference = $exists($document.id) ? $literal('DocumentReference?identifier=EEG_' & patientcode & "_" & encounter) : $reference($document)
+  * note
+    * text = channelLabels
+  
+
+);
+(
+Instance: $uuid()
+InstanceOf: Bundle
+* type = 'transaction'
+* ($device).entry
+  * request
+    * method = $exists(id) ? 'PUT' : 'POST'
+    * url = 'Device' & ($exists(id) ? '/' & id  : '')
+  * resource = $
+* ($document).entry
+  * request
+    * method = $exists(id) ? 'PUT' : 'POST'
+    * url = 'DocumentReference' & ($exists(id) ? '/' & id  : '')
+  * resource = $
+* ($observations).entry
+  * request
+    * method = $exists(id) ? 'PUT' : 'POST'
+    * url = 'Observation' & ($exists(id) ? '/' & id  : '')
+  * resource = $
+)

@@ -1,0 +1,853 @@
+(
+$data := $;
+$ethnicity_mapping:= {
+      "1": "Africana",
+      "2": "Asiatica",
+      "3": "Caucasica",
+      "4": "Ispanica",
+      "5": "Nativo americana"
+    };
+$language_mapping := {
+  "0": "Italiano",
+  "1": "Altro",
+  "2": "Afar",
+  "3": "Afrikaans",
+  "4": "Albanese",
+  "5": "Amarico",
+  "6": "Arabo",
+  "7": "Arabo Mauritano",
+  "8": "Armeno",
+  "9": "Assiro",
+  "10": "Aymara",
+  "11": "Azeri",
+  "12": "Bahasa Indonesia (indonesiano)",
+  "13": "Bangla (o Bengali, Bangala, BanglaBhasa)",
+  "14": "Bielorusso",
+  "15": "Birmano",
+  "16": "Bosniaco",
+  "17": "Chewa",
+  "18": "Chibarwe",
+  "19": "Cinese Standard o Mandarino",
+  "20": "Croato",
+  "21": "Curdo",
+  "22": "Ebraico",
+  "23": "Fijano",
+  "24": "Filippino",
+  "25": "Francese",
+  "26": "Georgiano",
+  "27": "Guarani",
+  "28": "Inglese",
+  "29": "isiNdebele",
+  "30": "IsiXhosa",
+  "31": "IsiZulu",
+  "32": "Italiano",
+  "33": "Kalanga",
+  "34": "Khmer",
+  "35": "Kinyarwanda",
+  "36": "Kirundi",
+  "37": "Kiswahili",
+  "38": "Koisan",
+  "39": "Lingala",
+  "40": "Macedone",
+  "41": "Malgascio",
+  "42": "Moldavo",
+  "43": "Monokutuba",
+  "44": "Montenegrino",
+  "45": "Nambya",
+  "46": "Ndau",
+  "47": "Ndebele",
+  "48": "Nepalese",
+  "49": "Oromo",
+  "50": "Palauano",
+  "51": "Pashto",
+  "52": "Persiano (o Farsi)",
+  "53": "Persiano Afghano o Dari",
+  "54": "Portoghese",
+  "55": "Quechua",
+  "56": "Russo",
+  "57": "Sangho",
+  "58": "Sepedi",
+  "59": "Serbo",
+  "60": "Sesotho",
+  "61": "Setswana",
+  "62": "Shangani",
+  "63": "Shikomoro",
+  "64": "Shona",
+  "65": "Singalese (o Cingalese o Sinhali)",
+  "66": "siSwati",
+  "67": "Somalo",
+  "68": "Sotho",
+  "69": "Spagnolo (catalano)",
+  "70": "Spagnolo (castillano)",
+  "71": "Swahili",
+  "72": "Tajiko",
+  "73": "Tamazight",
+  "74": "Tigrino (oTigrinya)",
+  "75": "Tonga",
+  "76": "Tshivenda",
+  "77": "Tswana",
+  "78": "Turco",
+  "79": "Turkmeno",
+  "80": "Ucraino",
+  "81": "Urdu",
+  "82": "Uzbeko",
+  "83": "Venda",
+  "84": "Vietnamita",
+  "85": "Xhosa",
+  "86": "Xitsonga"
+};
+
+$ischemic_config := [
+  {
+    "field": "ev_ac_i_localizzazione",
+    "code": "ev_ac_i_localizzazione", //"ischemic_localization",
+    "display": "Localizzazione ischemica",
+    "values": {
+      "1": "Corticale, lobo frontale",
+      "2": "Corticale, lobo parietale",
+      "3": "Corticale, lobo temporale",
+      "4": "Corticale, lobo occipitale",
+      "5": "Sottocorticale, talamo",
+      "6": "Sottocorticale, altro",
+      "7": "Tronco, mesencefalo",
+      "8": "Tronco, ponte",
+      "9": "Tronco, bulbo",
+      "10": "Cervelletto",
+      "11": "Non ho questa informazione"
+    }
+  },
+  {
+    "field": "ev_ac_i_bamford",
+    "code": "ev_ac_i_bamford", //"ischemic_bamford",
+    "display": "Sede Bamford",
+    "values": {
+      "1": "Partial anterior circulation stroke (PACS)",
+      "2": "Lacunar stroke (LACS)",
+      "3": "Total anterior circulation stroke (TACS)",
+      "4": "Posterior circulation stroke (POCS)"
+    }
+  },
+  {
+    "field": "ev_ac_i_toast",
+    "code": "ev_ac_i_toast", //"ischemic_toast",
+    "display": "TOAST",
+    "values": {
+      "1": "Aterotrombotico",
+      "2": "Cardioembolico",
+      "3": "Da occlusione dei piccoli vasi",
+      "4": "Da altra causa determinata",
+      "5": "Da causa indeterminata"
+    }
+  },
+  {
+    "field": "ev_ac_i_trombectomia",
+    "code": "ev_ac_i_trombectomia", //"ischemic_trombectomy",
+    "display": "Trombectomia",
+    "values": {
+      "1": "Sì",
+      "0": "No",
+      "2": "Non ho quest'informazione"
+    }
+  },
+  {
+    "field": "ev_ac_i_fibrinolisi",
+    "code": "ev_ac_i_fibrinolisi", //"ischemic_fibrinolysis",
+    "display": "Fibrinolisi sistemica",
+    "values": {
+      "1": "Sì",
+      "0": "No",
+      "2": "Non ho quest'informazione"
+    }
+  },
+  {
+    "field": "ev_ac_i_complicazioni",
+    "code": "ev_ac_i_complicazioni", //"ischemic_complications",
+    "display": "Complicazioni ischemiche",
+    "values": {
+      "1": "Edema cerebrale",
+      "2": "Trasformazioni emorragica",
+      "3": "Nessuna"
+    }
+  }
+];
+
+$hemorrhagic_config := [
+  {
+    "field": "ev_ac_e_localizzazione",
+    "code": "ev_ac_e_localizzazione", //"hemorrhagic_localization",
+    "display": "Localizzazione emorragica",
+    "values": {
+      "1": "Sede tipica (intraparenchimale)",
+      "2": "Sede atipica"
+    }
+  },
+  {
+    "field": "ev_ac_e_nhc",
+    "code": "ev_ac_e_nhc", //"hemorrhagic_nhc",
+    "display": "Evacuazione NHC",
+    "values": {
+      "1": "Sì",
+      "0": "No",
+      "2": "Non ho quest'informazione"
+    }
+  }
+];
+
+
+$observations_config := [
+  {
+    "field": "ric_afasia",
+    "code": "ric_afasia", //"afasia",
+    "display": "Presenza di afasia"
+  },
+  {
+    "field": "ric_eminattenazione",
+    "code": "ric_eminattenazione", //"eminattenazione",
+    "display": "Presenza di eminattenazione"
+  },
+  {
+    "field": "ric_estinzione",
+    "code": "ric_estinzione", //"estinzione",
+    "display": "Sensibilità lato paretico: estinzione al doppio stimolo tattile"
+  },
+  {
+    "field": "ric_stereoagnosia",
+    "code": "ric_stereoagnosia", //"stereoagnosia",
+    "display": "Sensibilità lato paretico: stereoagnosia"
+  },
+  {
+    "field": "ric_parestesie",
+    "code": "ric_parestesie", //"parestesie",
+    "display": "Parestesie"
+  },
+  {
+    "field": "ric_allodinia",
+    "code": "ric_allodinia", //"allodinia",
+    "display": "Allodinia"
+  },
+  {
+    "field": "ric_iperalgesia",
+    "code": "ric_iperalgesia", //"iperalgesia",
+    "display": "Iperalgesia"
+  },
+  {
+    "field": "ric_test_ovatta",
+    "code": "ric_test_ovatta", //"ipoestesia_tattile",
+    "display": "Ipoestesia tattile (test dell'ovatta)"
+  },
+  {
+    "field": "ric_test_spillo",
+    "code": "ric_test_spillo", //"ipoestesia_dolorifica",
+    "display": "Ipoestesia dolorifica (puntura di spillo)"
+  },
+  {
+    "field": "ric_ipopallestesia",
+    "code": "ric_ipopallestesia", //"ipopallestesia",
+    "display": "Ipopallestesia (senso di posizione del dito medio e dell'alluce)"
+  }
+];
+
+$conditions := [
+  {
+    "field": "an_rem_ipertensione",
+    "code": "38341003",
+    "display": "Ipertensione",
+    "system": "http://snomed.info/sct"
+  },
+  {
+    "field": "an_rem_dislipidemia",
+    "code": "55822004",
+    "display": "Dislipidemia",
+    "system": "http://snomed.info/sct"
+  },
+  {
+    "field": "an_rem_fibr_atriale",
+    "code": "49436004",
+    "display": "Fibrillazione atriale",
+    "system": "http://snomed.info/sct"
+  },
+  {
+    "field": "an_rem_pat_musc_schel",
+    "code": "128139000",
+    "display": "Patologie muscolo-scheletriche",
+    "system": "http://snomed.info/sct"
+  },
+  {
+    "field": "an_rem_diabete",
+    "code": "44054006",
+    "display": "Diabete mellito",
+    "system": "http://snomed.info/sct"
+  },
+  {
+    "field": "an_rem_dist_psichici",
+    "code": "74732009",
+    "display": "Disturbi psichici",
+    "system": "http://snomed.info/sct"
+  },
+  {
+    "field": "an_rem_dist_sonno",
+    "code": "32798004",
+    "display": "Disturbi del sonno",
+    "system": "http://snomed.info/sct"
+  },
+  {
+    "field": "an_rem_glaucoma",
+    "code": "23986001",
+    "display": "Glaucoma",
+    "system": "http://snomed.info/sct"
+  },
+  {
+    "field": "an_rem_infarto",
+    "code": "22298006",
+    "display": "Infarto del miocardio",
+    "system": "http://snomed.info/sct"
+  },
+  {
+    "field": "an_rem_insuff_cardiaca",
+    "code": "42343007",
+    "display": "Insufficienza cardiaca congestizia",
+    "system": "http://snomed.info/sct"
+  },
+  {
+    "field": "an_rem_neoplasie",
+    "code": "363346000",
+    "display": "Neoplasie",
+    "system": "http://snomed.info/sct"
+  },
+  {
+    "field": "an_rem_mv_periferica",
+    "code": "128599002",
+    "display": "Malattia vascolare periferica",
+    "system": "http://snomed.info/sct"
+  },
+  {
+    "field": "an_rem_dolore_cronico",
+    "code": "72585002",
+    "display": "Sindrome da dolore cronico",
+    "system": "http://snomed.info/sct"
+  },
+  {
+    "field": "an_rem_bronco",
+    "code": "13645005",
+    "display": "Broncopneumopatia cronica ostruttiva",
+    "system": "http://snomed.info/sct"
+  },
+  {
+    "field": "an_rem_pat_tiroidea",
+    "code": "14304000",
+    "display": "Patologia tiroidea",
+    "system": "http://snomed.info/sct"
+  }
+];
+
+
+$entries := records.(
+  $corr_record := $;
+  $patient := (
+    Instance: $resourceId('Patient?identifier='&record_id)
+    InstanceOf: Patient
+    * identifier
+      * value = record_id
+    * gender = (pz_sesso='2'?'male':pz_sesso='1'?'female':'unknown')
+    * birthDate = pz_nascita
+    * communication
+      * language
+        * coding
+          * code = pz_lingua_madre
+        * text = $lookup($language_mapping, pz_lingua_madre)
+    * managingOrganization
+      * reference = $literal('Organization?identifier='&centro)
+    * extension
+      * url = "http://hl7.org/fhir/StructureDefinition/patient-genderIdentity"
+      * valueCodeableConcept
+        * coding
+          * system = "http://terminology.hl7.org/CodeSystem/v3-AdministrativeGender"
+          * code = (pz_gender='2'?'M':pz_gender='1'?'F':'UN')
+    * extension
+      * url = "https://www.treccani.it/vocabolario/scolarita/"
+      * valueInteger =  pz_scolarita
+
+  );
+  
+  $researchsubjects := (
+    Instance: $resourceId('ResearchSubject?identifier='&record_id)
+    InstanceOf: ResearchSubject
+    * identifier
+      * value = record_id  
+    * individual
+      * reference = $exists($patient.id) ? $literal('Patient?identifier='&($patient.identifier.value)) : $reference($patient) 
+    * status = (pz_stato='0'?"on-study-intervention":pz_stato='1'?"on-study-observation":pz_stato='2'?"follow-up":pz_stato='3'?"off-study":pz_stato='4'?"off-study") 
+    * study
+      * reference = $literal("ResearchStudy?identifier=StrokeFit4")
+    * actualArm = (pz_riabilitazione='0'?"Robotica": "Tradizionale")
+    * period
+      * start = pz_en_date
+  );
+  
+
+  $encounter_ric := $boolean(ric_data) ? (
+    Instance: $resourceId('Encounter?identifier='&record_id&"_presa_in_carico")
+    InstanceOf: Encounter
+    * identifier
+      * value = record_id&"_presa_in_carico"
+    * period
+      * start = ric_data
+    * class
+      * display = "presa in carico" 
+    * serviceProvider
+      * reference = $literal('Organization?identifier='&centro)
+    * subject
+      * reference = $exists($patient.id) ? $literal('Patient?identifier='&($patient.identifier.value)) : $reference($patient)
+  );
+
+  $encounter_evento_acuto := $boolean(ev_ac_data) ? (
+    Instance: $resourceId('Encounter?identifier='&record_id&"_evento_acuto")
+    InstanceOf: Encounter
+    * identifier
+      * value = record_id&"_evento_acuto"
+    * class
+      * display = "evento acuto" 
+    * period
+      * start = ev_ac_data
+    * serviceProvider
+      * reference = $literal('Organization?identifier='&centro)
+    * subject
+      * reference = $exists($patient.id) ? $literal('Patient?identifier='&($patient.identifier.value)) : $reference($patient)
+  );
+
+  $evento_acuto := $boolean(ev_ac_data) ? (
+    Instance: $resourceId('Condition?identifier='&record_id)
+    InstanceOf: Condition
+    * identifier
+      * value = record_id  
+    * code
+      * coding
+        * system = "http://snomed.info/sct"
+        * code = (ev_ac_tipo="2" ? "230706003":ev_ac_tipo="1" ? "422504002")
+        * display = (ev_ac_tipo="2" ? "Evento Acuto Emorragico":ev_ac_tipo="1" ? "Evento Acuto Ischemico")
+    * subject
+      * reference = $exists($patient.id) ? $literal('Patient?identifier='&($patient.identifier.value)) : $reference($patient)
+    * bodySite
+      * coding
+        * code = (ev_ac_tipo="2" ? ev_ac_e_localizzazione:ev_ac_tipo="1" ? ev_ac_i_localizzazione)
+        * display = (ev_ac_tipo="2" ? ev_ac_e_localizzazione:ev_ac_tipo="1" ? ev_ac_i_localizzazione)
+    * onsetDateTime = ev_ac_data 
+    * encounter
+      * reference = $exists($encounter_evento_acuto.id) ? $literal('Encounter?identifier='&($encounter_evento_acuto.identifier.value)) : $reference($encounter_evento_acuto)
+  );
+  
+  $dominance_observation := $boolean(ric_data) ? (
+    Instance: $resourceId('Observation?identifier='&record_id & "_dominance")
+    InstanceOf: Observation
+    * identifier
+      * value = record_id & "_dominance"
+    * category
+      * coding
+        * code = "social-history"
+        * system = "http://terminology.hl7.org/CodeSystem/observation-category"
+        * display = "Social History"
+      * text = "Social History"
+    * code
+      * coding
+        * system = "http://loinc.org"
+        * code = "56102-7"
+        * display = "Dominance"
+      * text = "Dominance"
+    * subject
+      * reference = $exists($patient.id) ? $literal('Patient?identifier='&($patient.identifier.value)) : $reference($patient)
+    * effectiveDateTime = ric_data
+    * valueCodeableConcept
+      * text = (pz_dominanza='1'?'Right':'Left')
+      * coding
+        * code = pz_dominanza
+        * display = (pz_dominanza='1'?'Right':'Left')
+    * performer
+      * reference = $literal('Organization?identifier='&centro)
+    * encounter
+      * reference = $exists($encounter_ric.id) ? $literal('Encounter?identifier='&($encounter_ric.identifier.value)) : $reference($encounter_ric)
+  );
+
+  $ethnicity_observation := $boolean(ric_data) ?(
+    Instance: $resourceId('Observation?identifier='&record_id & "_ethnicity")
+    InstanceOf: Observation
+    * identifier
+      * value = record_id & "_ethnicity"
+    * category
+      * coding
+        * code = "social-history"
+        * system = "http://terminology.hl7.org/CodeSystem/observation-category"
+        * display = "Social History"
+      * text = "Social History"
+    * code
+      * coding
+        * system = "http://hl7.org/fhir/StructureDefinition/ethnicity"
+        * display = "Ethnicity"
+      * text = "Ethnicity"
+    * subject
+      * reference = $exists($patient.id) ? $literal('Patient?identifier='&($patient.identifier.value)) : $reference($patient)
+    * effectiveDateTime = ric_data
+    * valueCodeableConcept
+      * text = $lookup($ethnicity_mapping, pz_etnia)
+      * coding
+        * code = pz_etnia
+        * display = $lookup($ethnicity_mapping, pz_etnia)
+    * performer
+      * reference = $literal('Organization?identifier='&centro)
+    * encounter
+      * reference = $exists($encounter_ric.id) ? $literal('Encounter?identifier='&($encounter_ric.identifier.value)) : $reference($encounter_ric)
+  );
+
+  $pz_lavoro_observation := $boolean(ric_data) ? (
+    Instance: $resourceId('Observation?identifier='&record_id & "_" & ric_data & "_work_status")
+    InstanceOf: Observation
+    * identifier
+      * value = record_id & "_" & ric_data & "_work_status"
+    * category
+      * coding
+        * code = "social-history"
+        * system = "http://terminology.hl7.org/CodeSystem/observation-category"
+        * display = "Social History"
+      * text = "Social History"
+    * code
+      * coding
+        * system = "http://loinc.org"
+        * code = "74162-1"  
+        * display = "Work Status"
+      * text = "Work Status"
+    * subject
+      * reference = $exists($patient.id) ? $literal('Patient?identifier='&($patient.identifier.value)) : $reference($patient)
+    * effectiveDateTime = ric_data  
+    * valueCodeableConcept
+      * coding
+        * code = pz_stato_lavoro
+        * display = ( pz_stato_lavoro='0'?'Lavoratore':pz_stato_lavoro='1'?'Pensionato':pz_stato_lavoro='2'?'Disoccupato':'Sconosciuto')
+        * system = "http://terminology.hl7.org/CodeSystem/work-status"
+      * text = (pz_stato_lavoro='0'?'Lavoratore':pz_stato_lavoro='1'?'Pensionato':pz_stato_lavoro='2'?'Disoccupato':'Sconosciuto')
+    * performer
+      * reference = $literal('Organization?identifier='&centro)
+    * encounter
+      * reference = $exists($encounter_ric.id) ? $literal('Encounter?identifier='&($encounter_ric.identifier.value)) : $reference($encounter_ric)
+  );
+
+  $smoke_observation := $boolean(ric_data) ? (
+    Instance: $resourceId('Observation?identifier='&record_id & "_" & ric_data & "_smoke" )
+    InstanceOf: Observation
+    * identifier
+      * value = record_id & "_" & ric_data & "_smoke" 
+    * category
+      * coding
+        * code = "social-history"
+        * system = "http://terminology.hl7.org/CodeSystem/observation-category"
+        * display = "Social History"
+      * text = "Social History"
+    * code
+      * coding
+        * system = "http://loinc.org"
+        * code = "72166-2"
+        * display =  "Fumatore?"
+      * text = "Stato di fumatore di tabacco"
+    * subject
+      * reference = $exists($patient.id) ? $literal('Patient?identifier='&($patient.identifier.value)) : $reference($patient)
+    * effectiveDateTime = ric_data
+    * valueCodeableConcept
+      * text = (paz_fumo="2" ? "Ex-fumatore":paz_fumo="1" ? "Sì" : "No")
+      * coding 
+        * code = paz_fumo
+        * display = (paz_fumo="2" ? "Ex-fumatore":paz_fumo="1" ? "Sì" : "No")
+    * performer
+      * reference = $literal('Organization?identifier='&centro)
+    * encounter
+      * reference = $exists($encounter_ric.id) ? $literal('Encounter?identifier='&($encounter_ric.identifier.value)) : $reference($encounter_ric)
+  );
+  $height_observation := $boolean(ric_data) ? (
+    Instance: $resourceId('Observation?identifier='&record_id& "_" & ric_data & "_height" )
+    InstanceOf: Observation
+    * identifier
+      * value = record_id & "_" & ric_data & "_height" 
+    * category
+      * coding
+        * code = "vital-signs"
+        * system = "http://terminology.hl7.org/CodeSystem/observation-category"
+        * display = "Vital Signs"
+    * code
+      * coding
+        * system = "http://loinc.org"
+        * code = "8302-2"
+        * display =  "Altezza"
+      * text = "Altezza"
+    * subject
+      * reference = $exists($patient.id) ? $literal('Patient?identifier='&($patient.identifier.value)) : $reference($patient)
+    * effectiveDateTime = ric_data
+    * valueQuantity
+      * value = pz_altezza
+      * unit = "cm"
+      * system = "http://unitsofmeasure.org"
+      * code =  "cm"
+    * performer
+      * reference = $literal('Organization?identifier='&centro)
+    * encounter
+      * reference = $exists($encounter_ric.id) ? $literal('Encounter?identifier='&($encounter_ric.identifier.value)) : $reference($encounter_ric)
+  );
+  $weight_observation := $boolean(ric_data) ? (
+    Instance: $resourceId('Observation?identifier='&record_id & "_" & ric_data & "_weight" )
+    InstanceOf: Observation
+    * identifier
+      * value = record_id & "_" & ric_data & "_weight" 
+    * category
+      * coding
+        * code = "vital-signs"
+        * system = "http://terminology.hl7.org/CodeSystem/observation-category"
+        * display = "Vital Signs"
+    * code
+      * coding
+        * system = "http://loinc.org"
+        * code = "29463-7"
+        * display =  "Peso"
+      * text = "Peso"
+    * subject
+      * reference = $exists($patient.id) ? $literal('Patient?identifier='&($patient.identifier.value)) : $reference($patient)
+    * effectiveDateTime = ric_data
+    * valueQuantity
+      * value = pz_peso
+      * unit = "kg"
+      * system = "http://unitsofmeasure.org"
+      * code =  "kg"
+    * performer
+      * reference =$literal('Organization?identifier='&centro)  
+    * encounter
+      * reference = $exists($encounter_ric.id) ? $literal('Encounter?identifier='&($encounter_ric.identifier.value)) : $reference($encounter_ric)
+  );
+  $bmi_observation := $boolean(ric_data) ? (
+    Instance: $resourceId('Observation?identifier='&record_id & "_" & ric_data & "_bmi" )
+    InstanceOf: Observation
+    * identifier
+      * value = record_id & "_" & ric_data &"_bmi" 
+    * category
+      * coding
+        * code = "vital-signs"
+        * system = "http://terminology.hl7.org/CodeSystem/observation-category"
+        * display = "Vital Signs"
+    * code
+      * coding
+        * system = "http://loinc.org"
+        * code = "39156-5"
+        * display =  "BMI"
+      * text = "BMI"
+    * subject
+      * reference = $exists($patient.id) ? $literal('Patient?identifier='&($patient.identifier.value)) : $reference($patient)
+    * effectiveDateTime = ric_data
+    * valueQuantity
+      * value = pz_bmi
+      * unit = "kg/m2"
+      * system = "http://unitsofmeasure.org"
+      * code =  "kg/m2"
+    * performer
+      * reference = $literal('Organization?identifier='&centro) 
+    * encounter
+      * reference = $exists($encounter_ric.id) ? $literal('Encounter?identifier='&($encounter_ric.identifier.value)) : $reference($encounter_ric)
+  );
+
+  $conditions_resources := $conditions.(
+    $field_value := $lookup($corr_record, field);
+    ($boolean($field_value) and $field_value != "0") ? (
+      Instance: $resourceId('Condition?identifier='&$patient.identifier.value&"_"&field)
+      InstanceOf: Condition
+      * identifier
+        * value = $patient.identifier.value & "_" & field
+      * subject
+        * reference = $exists($patient.id) ? $literal('Patient?identifier='&($patient.identifier.value)) : $reference($patient)
+      * code
+        * coding
+          * system = system
+          * code = code
+        * text = display
+      * onsetDateTime = $lookup($corr_record, "ric_data")
+      * encounter
+        * reference = $exists($encounter_ric.id) ? $literal('Encounter?identifier='&($encounter_ric.identifier.value)) : $reference($encounter_ric)
+    )
+  );
+  
+  $settling_observation := $boolean(ric_data) ? (
+    Instance: $resourceId('Observation?identifier='&record_id & "_set_attuale")
+    InstanceOf: Observation
+    * identifier
+      * value = record_id & "_set_attuale"
+    * category
+      * coding
+        * code = "social-history"
+        * system = "http://terminology.hl7.org/CodeSystem/observation-category"
+        * display = "Social History"
+      * text = "Social History"
+    * code
+      * coding
+        * system = "http://custom-codes/system"
+        * code = "ric_set_attuale"
+        * display = "Settling riabilitativo attuale"
+      * text = "Settling riabilitativo attuale"
+    * subject
+      * reference = $exists($patient.id) ? $literal('Patient?identifier='&($patient.identifier.value)) : $reference($patient)
+    * effectiveDateTime = ric_data
+    * valueCodeableConcept
+      * coding
+        * code = ric_set_attuale
+        * display = (ric_set_attuale="1" ? "Residenziale cod56" : ric_set_attuale="2" ? "Residenziale ex art 26" : ric_set_attuale="3" ? "Semiresidenziale" : ric_set_attuale="4" ? "Ambulatoriale" : ric_set_attuale="5" ? "Residenziale cod 75" : ric_set_attuale="6" ? "Codice 60" : ric_set_attuale="7" ? "Altro" : "Non specificato")
+      * text = (ric_set_attuale="1" ? "Residenziale cod56" : ric_set_attuale="2" ? "Residenziale ex art 26" : ric_set_attuale="3" ? "Semiresidenziale" : ric_set_attuale="4" ? "Ambulatoriale" : ric_set_attuale="5" ? "Residenziale cod 75" : ric_set_attuale="6" ? "Codice 60" : ric_set_attuale="7" ? "Altro" : "Non specificato")
+    * performer
+      * reference = $literal('Organization?identifier='&centro)
+    * encounter
+      * reference = $exists($encounter_ric.id) ? $literal('Encounter?identifier='&($encounter_ric.identifier.value)) : $reference($encounter_ric)
+  );
+
+  $lato_affetto_observation := $boolean(ric_data) ? (
+    Instance: $resourceId('Observation?identifier='&record_id & "_lato_affetto")
+    InstanceOf: Observation
+    * identifier
+      * value = record_id & "_lato_affetto"
+    * category
+      * coding
+        * code = "social-history"
+        * system = "http://terminology.hl7.org/CodeSystem/observation-category"
+        * display = "Social History"
+      * text = "Social History"
+    * code
+      * coding
+        * system = "http://custom-codes/system"
+        * code = "ric_lato_affetto"
+        * display = "Lato affetto"
+      * text = "Lato affetto"
+    * subject
+      * reference = $exists($patient.id) ? $literal('Patient?identifier='&($patient.identifier.value)) : $reference($patient)
+    * effectiveDateTime = ric_data
+    * valueCodeableConcept
+      * coding
+        * code = ric_lato_affetto
+        * display = (ric_lato_affetto="1" ? "Destro" : ric_lato_affetto="2" ? "Sinistro" : ric_lato_affetto="0" ? "Nessuno" : ric_lato_affetto="3" ? "Bilaterale" : "Non specificato")
+      * text = (ric_lato_affetto="1" ? "Destro" : ric_lato_affetto="2" ? "Sinistro" : ric_lato_affetto="0" ? "Nessuno" : ric_lato_affetto="3" ? "Bilaterale" : "Non specificato")
+    * performer
+      * reference = $literal('Organization?identifier='&centro)
+    * encounter
+      * reference = $exists($encounter_ric.id) ? $literal('Encounter?identifier='&($encounter_ric.identifier.value)) : $reference($encounter_ric)
+  );
+  $organiz := $corr_record.centro;
+  $new_observations := $observations_config.(
+  $field_value := $lookup($corr_record, field);
+  
+  ($boolean($field_value) and $field_value = "1") ? (
+    Instance: $resourceId('Observation?identifier='&$patient.identifier.value&"_"&field)
+    InstanceOf: Observation
+    * identifier
+      * value = $patient.identifier.value & "_" & field
+    * category
+      * coding
+        * code = "clinical-findings"
+        * system = "http://terminology.hl7.org/CodeSystem/observation-category"
+        * display = "Clinical Findings"
+      * text = "Clinical Findings"
+    * code
+      * coding
+        * system = "http://custom-codes/system"
+        * code = code
+        * display = display
+      * text = display
+    * subject
+      * reference = $exists($patient.id) ? $literal('Patient?identifier='&($patient.identifier.value)) : $reference($patient)
+    * effectiveDateTime = $lookup($corr_record, "ric_data")
+    * valueCodeableConcept
+      * coding
+        * code = "1"
+        * display = "Sì"
+      * text = "Sì"
+    * performer
+      * reference = $literal('Organization?identifier='&($organiz))
+    * encounter
+      * reference = $exists($encounter_ric.id) ? $literal('Encounter?identifier='&($encounter_ric.identifier.value)) : $reference($encounter_ric)
+  )
+);
+
+$ischemic_observations :=  $ischemic_config.(
+  $field_value := $lookup($corr_record, field);
+  $boolean($field_value) ? (
+    Instance: $resourceId('Observation?identifier='&$patient.identifier.value&"_"&field)
+    InstanceOf: Observation
+    * identifier
+      * value = $patient.identifier.value & "_" & field
+    * category
+      * coding
+        * code = "clinical-findings"
+        * system = "http://terminology.hl7.org/CodeSystem/observation-category"
+        * display = "Clinical Findings"
+    * code
+      * coding
+        * system = "http://custom-codes/system"
+        * code = code
+        * display = display
+      * text = display
+    * subject
+      * reference = $exists($patient.id) ? $literal('Patient?identifier='&($patient.identifier.value)) : $reference($patient)
+    * effectiveDateTime = ev_ac_data
+    * valueCodeableConcept
+      * coding
+        * code = $field_value
+        * display = $lookup(values, $field_value)
+      * text = $lookup(values, $field_value)
+    * performer
+      * reference = $literal('Organization?identifier='&($organiz))
+    * encounter
+      * reference = $exists($encounter_evento_acuto.id) ? $literal('Encounter?identifier='&($encounter_evento_acuto.identifier.value)) : $reference($encounter_evento_acuto)
+  )
+);
+  
+$hemorrhagic_observations := $hemorrhagic_config.(
+  $field_value := $lookup($corr_record, field);
+  $boolean($field_value) ? (
+    Instance: $resourceId('Observation?identifier='&$patient.identifier.value&"_"&field)
+    InstanceOf: Observation
+    * identifier
+      * value = $patient.identifier.value & "_" & field
+    * category
+      * coding
+        * code = "clinical-findings"
+        * system = "http://terminology.hl7.org/CodeSystem/observation-category"
+        * display = "Clinical Findings"
+    * code
+      * coding
+        * system = "http://custom-codes/system"
+        * code = code
+        * display = display
+      * text = display
+    * subject
+      * reference = $exists($patient.id) ? $literal('Patient?identifier='&($patient.identifier.value)) : $reference($patient)
+    * effectiveDateTime = ev_ac_data
+    * valueCodeableConcept
+      * coding
+        * code = $field_value
+        * display = $lookup(values, $field_value)
+      * text = $lookup(values, $field_value)
+    * performer
+      * reference = $literal('Organization?identifier='&($organiz))
+    * encounter
+      * reference = $exists($encounter_evento_acuto.id) ? $literal('Encounter?identifier='&($encounter_evento_acuto.identifier.value)) : $reference($encounter_evento_acuto)
+  )
+);
+
+  
+  
+
+
+  
+  [$patient, $researchsubjects, $encounter_ric, $encounter_evento_acuto, $evento_acuto, 
+  $dominance_observation, $ethnicity_observation,$pz_lavoro_observation,
+  $smoke_observation, $height_observation, $weight_observation, $bmi_observation, $conditions_resources, $settling_observation,
+  $lato_affetto_observation, $new_observations, $ischemic_observations, $hemorrhagic_observations]
+  
+);
+
+Instance: $uuid()
+InstanceOf: Bundle
+* type = 'transaction'
+* ($entries).entry
+  * request
+    * method = $exists(id) ? 'PUT' : 'POST'
+    * url = resourceType & ($exists(id) ? '/' & id  : '')
+  * resource = $
+)

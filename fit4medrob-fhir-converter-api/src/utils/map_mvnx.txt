@@ -1,0 +1,84 @@
+$device := (
+  Instance: $resourceId('Device?identifier=XSENS_'&performer)
+  InstanceOf: Device
+  * identifier 
+    * value = 'XSENS_'& performer
+  * deviceName 
+    * name = "XSENS"
+  * owner 
+    * reference = $literal('Organization?identifier='&performer)
+);
+
+$document := (
+    Instance: $resourceId('DocumentReference?identifier=XSENS_' & patientcode & "_" & encounter)
+    InstanceOf: DocumentReference
+    * identifier
+      * value = "XSENS_" & patientcode & "_" & encounter & "_" & filename
+    * content
+      * attachment
+        * url = path
+    * subject
+      * reference = $literal('Patient?identifier='&patientcode) 
+    * status = "current"
+);
+
+$data := $;
+
+$observations := (
+  Instance: $resourceId('Observation?identifier=XSENS_' & patientcode & "_" & encounter)
+  InstanceOf: Observation
+  * identifier
+    * value = "XSENS_" & patientcode & "_" & encounter & "_" & filename
+  * status = "final"
+  * code 
+    * coding 
+      * code = "93042-4"
+      * display = "Motion analysis study"
+      * system = "http://loinc.org"
+    * text = "XSENS motion capture"
+  * subject
+    * reference = $literal('Patient?identifier='&patientcode) 
+  * effectiveDateTime = startdate
+  * performer 
+    * reference = $literal('Organization?identifier='&performer) 
+  * encounter
+    * reference = $literal('Encounter?identifier='&encounter) 
+  * device 
+    * reference = $exists($device.id) ? $literal('Device?identifier='&($device.identifier.value)) : $reference($device)
+  * derivedFrom
+    * reference = $exists($document.id) ? $literal('DocumentReference?identifier=XSENS_' & patientcode & "_" & encounter) : $reference($document)
+  * (segmentList).component 
+    * code 
+      * coding 
+        * code = id
+        * display = name
+      * text = name
+    * valueSampledData 
+      * origin /* <Quantity> Zero value and units */
+        * value = 0
+        * unit = $data.dimension 
+      * period = 1.0 / $data.frameRate
+      * factor = 1
+      * dimensions = 1
+);
+
+(
+Instance: $uuid()
+InstanceOf: Bundle
+* type = 'transaction'
+* ($device).entry
+  * request
+    * method = $exists(id) ? 'PUT' : 'POST'
+    * url = 'Device' & ($exists(id) ? '/' & id  : '')
+  * resource = $
+* ($document).entry
+  * request
+    * method = $exists(id) ? 'PUT' : 'POST'
+    * url = 'DocumentReference' & ($exists(id) ? '/' & id  : '')
+  * resource = $
+* ($observations).entry
+  * request
+    * method = $exists(id) ? 'PUT' : 'POST'
+    * url = 'Observation' & ($exists(id) ? '/' & id  : '')
+  * resource = $
+)

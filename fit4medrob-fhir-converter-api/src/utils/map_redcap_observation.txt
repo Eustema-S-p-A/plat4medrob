@@ -1,0 +1,248 @@
+(
+$data := $;
+
+
+$observations := [
+  {
+    "field": "brass_score",
+    "description": "BRASS"
+  },
+  {
+    "field": "cri_totale",
+    "description": "Riserva Cognitiva (CRIq)"
+  },
+  {
+    "field": "mrs_score1",
+    "description": "Modified Rankin Scale (premorbid)"
+  },
+  {
+    "field": "mna_screening_score",
+    "description": "Mini Nutritional Assessment"
+  },
+  {
+    "field": "fois_score",
+    "description": "Functional Oral Intake Score"
+  },
+  {
+    "field": "sarcf_score",
+    "description": "SARC-F"
+  },
+  {
+    "field": "nihss_score",
+    "description": "NIHSS"
+  },
+  {
+    "field": "circs_severity",
+    "description": "CIRS Severity Index"
+  },
+  {
+    "field": "circs_comorbidity",
+    "description": "CIRS Comorbidity Index"
+  },
+  {
+    "field": "moca_score",
+    "description": "MoCA",
+    "unit": "/30"
+  },
+  {
+    "field": "bdi_tot",
+    "description": "Beck Depression Inventory"
+  },
+  {
+    "field": "hads_d_score",
+    "description": "Hospital Depression"
+  },
+  {
+    "field": "hads_a_score",
+    "description": "Hospital Anxiety"
+  },
+  {
+    "field": "fss_score",
+    "description": "Fatigue Severity Scale"
+  },
+  {
+    "field": "tlt_a",
+    "description": "Thumb Localizing Test: NAVEL PROXIMAL"
+  },
+  {
+    "field": "tlt_b",
+    "description": "Thumb Localizing Test: NAVEL LATERAL"
+  },
+  {
+    "field": "tlt_c",
+    "description": "Thumb Localizing Test: SHOULDER PROXIMAL"
+  },
+  {
+    "field": "tlt_d",
+    "description": "Thumb Localizing Test: SHOULDER LATERAL"
+  },
+  {
+    "field": "grado_monofilamento",
+    "description": "Test Del Monofilamento"
+  },
+  {
+    "field": "mbi",
+    "description": "Modified Barthel Index"
+  },
+  {
+    "field": "fm_inf_e_score",
+    "description": "Fugl-Meyer Arti Inferiori: arto inferiore",
+    "unit": "/28"
+  },
+  {
+    "field": "fm_inf_f_score",
+    "description": "Fugl-Meyer Arti Inferiori: coordinazione/velocità",
+    "unit": "/6"
+  },
+  {
+    "field": "fm_inf_ef_score",
+    "description": "Fugl-Meyer Arti Inferiori: funzione motoria",
+    "unit": "/34"
+  },
+  {
+    "field": "fm_inf_h_score",
+    "description": "Fugl-Meyer Arti Inferiori: sensibilità",
+    "unit": "/12"
+  },
+  {
+    "field": "fm_sup_a_score",
+    "description": "Fugl-Meyer Arti Superiori: arto superiore",
+    "unit": "/36"
+  },
+  {
+    "field": "fm_sup_b_score",
+    "description": "Fugl-Meyer Arti Superiori: polso",
+    "unit": "/10"
+  },
+  {
+    "field": "fm_sup_c_score",
+    "description": "Fugl-Meyer Arti Superiori: polso",
+    "unit": "/14"
+  },
+  {
+    "field": "fm_sup_d_score",
+    "description": "Fugl-Meyer Arti Superiori: coordinazione/velocità",
+    "unit": "/6"
+  },
+  {
+    "field": "fm_sup_abcd_score",
+    "description": "Fugl-Meyer Arti Superiori: funzione motoria",
+    "unit": "/66"
+  },
+  {
+    "field": "fm_sup_h_score",
+    "description": "Fugl-Meyer Arti Superiori: sensibilità",
+    "unit": "/12"
+  },
+  {
+    "field": "sdmt_score",
+    "description": "Symbol Digit Modalities Test"
+  },
+  {
+    "field": "mi_braccio_dx_score",
+    "description": "Motricity Index: arto superiore affetto"
+  },
+  {
+    "field": "mi_braccio_sx_score",
+    "description": "Motricity Index: arto superiore non affetto"
+  },
+  {
+    "field": "mi_gamba_dx_score",
+    "description": "Motricity Index: arto inferiore affetto"
+  },
+  {
+    "field": "mi_gamba_sx_score",
+    "description": "Motricity Index: arto inferiore non affetto"
+  },
+  {
+    "field": "tct_score",
+    "description": "Trunk Control Test"
+  },
+  {
+    "field": "nrs_score",
+    "description": "NRS"
+  },
+  {
+    "field": "dn4_score",
+    "description": "DN4"
+  },
+  {
+    "field": "arat_tot",
+    "description": "ARAT"
+  },
+  {
+    "field": "tmwt_distanza",
+    "description": "2 Minute Walking Test",
+    "unit": "m"
+  },
+  {
+    "field": "eq_index_italian",
+    "description": "EQ-5D-5L"
+  },
+  {
+    "field": "bb_score_affetto",
+    "description": "Box And Block Test: lato affetto",
+    "unit": "blocchetti al minuto"
+  },
+  {
+    "field": "bb_score_nonaffetto",
+    "description": "Box And Block Test: lato non affetto",
+    "unit": "blocchetti al minuto"
+  },
+  {
+    "field": "mean_norm_vel",
+    "description": "10 Meter Walk Test: velocità normale",
+    "unit": "m/s"
+  },
+  {
+    "field": "mean_norm_vel_2",
+    "description": "10 Meter Walk Test: velocità massima",
+    "unit": "m/s"
+  }
+];
+
+$entries := records.(
+  $record := $;
+  $observation_resources := $observations.(
+    $id := $lookup($record, "record_id");
+    $event := $lookup($record, "redcap_event_name");
+    $centro := $lookup($record, "centro");
+    $value := $lookup($record, field);
+    $date := $lookup($record, "date");
+    $boolean($value) ? (
+      $event := ($event = 'baseline_assessmen_arm_1') ? "t0_arm_1" : $event;
+      Instance: $resourceId('Observation?identifier=' & field & "_" & $id & "_" & $event)
+      InstanceOf: Observation
+      * identifier
+        * value = field & "_" & $id & "_" & $event
+      * code
+        * coding
+          * code = field
+        * text = description
+      * subject
+        * reference =$literal('Patient?identifier='&$id) 
+      * encounter
+        * reference = $literal('Encounter?identifier=' & $id & "_" & $event)
+      * performer
+        * reference = $literal('Organization?identifier='& $centro) 
+      * effectiveDateTime = $date
+      * valueQuantity
+        * value = $value
+        * unit = unit
+    )
+  );
+
+  [$observation_resources]
+
+);
+
+Instance: $uuid()
+InstanceOf: Bundle
+* type = 'transaction'
+* ($entries).entry
+  * request
+    * method = $exists(id) ? 'PUT' : 'POST'
+    * url = resourceType & ($exists(id) ? '/' & id  : '')
+  * resource = $
+
+)

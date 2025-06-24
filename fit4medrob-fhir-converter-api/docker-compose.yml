@@ -1,0 +1,18 @@
+#version: '3.8'
+
+services:
+  fit4medrob-fhir-converter-api:
+    image: fit4medrob-fhir-converter-api:latest
+    container_name: fit4medrob-fhir-converter-api
+    restart: always
+    build:
+      context: .
+      dockerfile: app.dockerfile
+    ports:
+      - "4000:4000"
+
+
+networks:
+  default:
+    external:
+      name: fit4medrob-net

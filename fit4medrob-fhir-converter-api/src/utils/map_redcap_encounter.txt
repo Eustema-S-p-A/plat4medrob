@@ -1,0 +1,211 @@
+(
+$data := $;
+
+
+$entries := records.(
+  $t0 := $boolean(t0) ? (
+    Instance: $resourceId('Encounter?identifier='&record_id&"_t0_arm_1")
+    InstanceOf: Encounter
+    * identifier
+      * value = record_id&"_t0_arm_1"
+    * class
+      * display = "T0"
+    * reasonCode
+      * text = "Prima seduta"
+    * period
+      * start = t0
+    * serviceProvider
+      * reference = $literal('Organization?identifier='&centro)
+    * subject
+      * reference = $literal('Patient?identifier='&record_id)
+  );
+  $t5s := $boolean(t5s) ? (
+    Instance: $resourceId('Encounter?identifier='&record_id&"_t_5s_arm_1")
+    InstanceOf: Encounter
+    * identifier
+      * value = record_id&"_t_5s_arm_1"
+    * class
+      * display = "T_5s"
+    * reasonCode
+      * text = "Quinta seduta"
+    * period
+      * start = t5s
+    * serviceProvider
+      * reference = $literal('Organization?identifier='&centro)
+    * subject
+      * reference = $literal('Patient?identifier='&record_id)
+  );
+  $t10s := $boolean(t10s) ? (
+    Instance: $resourceId('Encounter?identifier='&record_id&"_t_10s_arm_1")
+    InstanceOf: Encounter
+    * identifier
+      * value = record_id&"_t_10s_arm_1"
+    * class
+      * display = "T_10s"
+    * reasonCode
+      * text = "Decima seduta"
+    * period
+      * start = t10s
+    * serviceProvider
+      * reference = $literal('Organization?identifier='&centro)
+    * subject
+      * reference = $literal('Patient?identifier='&record_id)
+  );
+  $t15s := $boolean(t15s) ? (
+    Instance: $resourceId('Encounter?identifier='&record_id&"_t_15s_arm_1")
+    InstanceOf: Encounter
+    * identifier
+      * value = record_id&"_t_15s_arm_1"
+    * class
+      * display = "T_15s"
+    * reasonCode
+      * text = "Quindicesima seduta"
+    * period
+      * start = t15s
+    * serviceProvider
+      * reference = $literal('Organization?identifier='&centro)
+    * subject
+      * reference = $literal('Patient?identifier='&record_id)
+  );
+  $t20s := $boolean(t20s) ? (
+    Instance: $resourceId('Encounter?identifier='&record_id&"_t_20s_arm_1")
+    InstanceOf: Encounter
+    * identifier
+      * value = record_id&"_t_20s_arm_1"
+    * class
+      * display = "T_20s"
+    * reasonCode
+      * text = "Ventesima seduta"
+    * period
+      * start = t20s
+    * serviceProvider
+      * reference = $literal('Organization?identifier='&centro)
+    * subject
+      * reference = $literal('Patient?identifier='&record_id)
+  );
+  $t1 := $boolean(t1) ? (
+    Instance: $resourceId('Encounter?identifier='&record_id&"_t1_arm_1")
+    InstanceOf: Encounter
+    * identifier
+      * value = record_id&"_t1_arm_1"
+    * class
+      * display = "T1"
+    * reasonCode
+      * text = "Ultima seduta"
+    * period
+      * start = t1
+    * serviceProvider
+      * reference = $literal('Organization?identifier='&centro)
+    * subject
+      * reference = $literal('Patient?identifier='&record_id)
+  );
+  $t1_m := $boolean(t1_m) ? (
+    Instance: $resourceId('Encounter?identifier='&record_id&"_t_1m_arm_1")
+    InstanceOf: Encounter
+    * identifier
+      * value = record_id&"_t_1m_arm_1"
+    * class
+      * display = "T_1m"
+    * reasonCode
+      * text = "Prima seduta di follow up un mese dopo"
+    * period
+      * start = t1_m
+    * serviceProvider
+      * reference = $literal('Organization?identifier='&centro)
+    * subject
+      * reference = $literal('Patient?identifier='&record_id)
+  );
+  $t2_m := $boolean(t2_m) ? (
+    Instance: $resourceId('Encounter?identifier='&record_id&"_t_2m_arm_1")
+    InstanceOf: Encounter
+    * identifier
+      * value = record_id&"_t_2m_arm_1"
+    * class
+      * display = "T_2m"
+    * reasonCode
+      * text = "Seconda seduta di follow up due mesi dopo"
+    * period
+      * start = t2_m
+    * serviceProvider
+      * reference = $literal('Organization?identifier='&centro)
+    * subject
+      * reference = $literal('Patient?identifier='&record_id)
+  );
+  $t3_m := $boolean(t3_m) ? (
+    Instance: $resourceId('Encounter?identifier='&record_id&"_t_3m_arm_1")
+    InstanceOf: Encounter
+    * identifier
+      * value = record_id&"_t_3m_arm_1"
+    * class
+      * display = "T_3m"
+    * reasonCode
+      * text = "Terza seduta di follow up tre mesi dopo"
+    * period
+      * start = t3_m
+    * serviceProvider
+      * reference = $literal('Organization?identifier='&centro)
+    * subject
+      * reference = $literal('Patient?identifier='&record_id)
+  );
+  $t4_m := $boolean(t4_m) ? (
+    Instance: $resourceId('Encounter?identifier='&record_id&"_t_4m_arm_1")
+    InstanceOf: Encounter
+    * identifier
+      * value = record_id&"_t_4m_arm_1"
+    * class
+      * display = "T_4m"
+    * reasonCode
+      * text = "Quarta seduta di follow up quattro mesi dopo"
+    * period
+      * start = t4_m
+    * serviceProvider
+      * reference = $literal('Organization?identifier='&centro)
+    * subject
+      * reference = $literal('Patient?identifier='&record_id)
+  );
+  $t5_m := $boolean(t5_m) ? (
+    Instance: $resourceId('Encounter?identifier='&record_id&"_t_5m_arm_1")
+    InstanceOf: Encounter
+    * identifier
+      * value = record_id&"_t_5m_arm_1"
+    * class
+      * display = "T_5m"
+    * reasonCode
+      * text = "Quinta seduta di follow up cinque mesi dopo"
+    * period
+      * start = t5_m
+    * serviceProvider
+      * reference = $literal('Organization?identifier='&centro)
+    * subject
+      * reference = $literal('Patient?identifier='&record_id)
+  );
+  $t6_m := $boolean(t6_m) ? (
+    Instance: $resourceId('Encounter?identifier='&record_id&"_t_6m_arm_1")
+    InstanceOf: Encounter
+    * identifier
+      * value = record_id&"_t_6m_arm_1"
+    * class
+      * display = "T_6m"
+    * reasonCode
+      * text = "Sesta seduta di follow up sei mesi dopo"
+    * period
+      * start = t6_m
+    * serviceProvider
+      * reference = $literal('Organization?identifier='&centro)
+    * subject
+      * reference = $literal('Patient?identifier='&record_id)
+  );
+
+  [$t0,$t5s,$t10s,$t15s,$t20s,$t1,$t1_m,$t2_m,$t3_m,$t4_m,$t5_m,$t6_m]
+
+);
+
+Instance: $uuid()
+InstanceOf: Bundle
+* type = 'transaction'
+* ($entries).entry
+  * request
+    * method = $exists(id) ? 'PUT' : 'POST'
+    * url = resourceType & ($exists(id) ? '/' & id  : '')
+  * resource = $
+)

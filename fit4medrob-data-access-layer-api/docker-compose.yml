@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  fit4medrob-data-access-layer-api:
+    image: fit4medrob-data-access-layer-api:latest
+    container_name: fit4medrob-data-access-layer-api
+    restart: always
+    build:
+      context: ./
+      dockerfile: app.dockerfile
+    ports:
+      - "19000:19000"
+    environment:
+      - UVICORN_HOST=0.0.0.0
+    volumes:
+      - fit4medrob-data-access-layer-volume:/usr/src/app/app/shared_data
+      - fit4medrob-data-collection-volume:/temp_files
+    command: uvicorn app.main:app --host 0.0.0.0 --port 19000 --reload
+    networks:
+      - fit4medrob-net
+
+volumes:
+    fit4medrob-data-access-layer-volume:
+        name: fit4medrob-data-access-layer-volume-1
+        external: false
+    fit4medrob-data-collection-volume:
+      external: true
+
+networks:
+    fit4medrob-net:
+        external: true

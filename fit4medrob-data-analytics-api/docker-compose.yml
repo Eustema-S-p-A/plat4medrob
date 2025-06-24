@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  fit4medrob-analytics-api:
+    image: fit4medrob-analytics-api:latest
+    container_name: fit4medrob-analytics-api
+    restart: always
+    build:
+      context: ./
+      dockerfile: app.dockerfile
+    ports:
+      - "17000:17000"
+    environment:
+      - UVICORN_HOST=0.0.0.0
+    volumes:
+      - fit4medrob-analytics-volume:/usr/src/app/app/shared_data
+    command: uvicorn app.main:app --host 0.0.0.0 --port 17000 --reload
+    networks:
+      - fit4medrob-net
+volumes:
+    fit4medrob-analytics-volume:
+        name: fit4medrob-analytics-volume-1
+        external: false
+
+networks:
+    fit4medrob-net:
+        external: true

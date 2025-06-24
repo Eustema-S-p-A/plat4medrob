@@ -1,0 +1,87 @@
+$data := $;
+$organization := (
+  Instance: $resourceId('Organization?identifier='&organization.identifier)
+  InstanceOf: Organization
+  * identifier 
+    * value = organization.identifier
+);
+$patient := (
+  Instance: $resourceId('Patient?identifier='&patient.identifier)
+  InstanceOf: Patient
+  * identifier
+    * value = patient.identifier
+);
+$encounter := (
+  Instance: $resourceId('Encounter?identifier='&encounter.guid)
+  InstanceOf: Encounter
+  * identifier 
+    * value = encounter.guid
+  * subject
+    * reference = $literal('Patient?identifier='&($patient.identifier.value))
+  * status = "finished"
+  * period
+    * start = date.value & '+00:00'
+    * end = date.value & '+00:00'
+  * serviceProvider 
+    * reference = $literal('Organization?identifier='&($organization.identifier.value))
+  * class
+    * display = encounter.name
+    * code = encounter.code
+);
+
+$device := (
+   Instance: $resourceId('Device?identifier='&device.name&'_'&($organization.identifier.value))
+   InstanceOf: Device
+   * identifier 
+     * value = device.name&'_'&($organization.identifier.value)
+   * manufacturer = "Tecnobody"
+   * deviceName 
+     * name = device.name
+   * modelNumber = device.code
+   * owner 
+     * reference =$literal('Organization?identifier='&($organization.identifier.value)) 
+
+);
+$observations := observations.(
+  Instance: $resourceId('Observation?identifier='&($data.encounter.guid)&"_"&code)
+  InstanceOf: Observation
+  * identifier
+    * value = ($data.encounter.guid)&"_"&code
+  * code
+    * text = code
+    * coding
+        * system = "http://purl.bioontology.org/ontology/SNOMEDCT"
+        * code = "1303930001"
+  * subject
+    * reference =$literal('Patient?identifier='&($patient.identifier.value)) 
+  * encounter
+    * reference = $exists($encounter.id) ? $literal('Encounter?identifier='&($encounter.identifier.value)) : $reference($encounter) 
+  * valueQuantity
+    * value = value
+    * unit = $count(udm) > 0 ? udm 
+  * effectiveDateTime = $data.date.value & '+00:00'
+  * performer
+    * reference = $literal('Organization?identifier='&($organization.identifier.value)) 
+  * device /* da vedere come lo scriveranno nei messaggi di TB */
+    * reference = $exists($device.id) ? $literal('Device?identifier='&($device.identifier.value)) : $reference($device)
+);
+(
+Instance: $uuid()
+InstanceOf: Bundle
+* type = 'transaction'
+* ($encounter).entry
+  * request
+    * method = $exists(id) ? 'PUT' : 'POST'
+    * url = 'Encounter' & ($exists(id) ? '/' & id  : '')
+  * resource = $
+* ($device).entry
+  * request
+    * method = $exists(id) ? 'PUT' : 'POST'
+    * url = 'Device' & ($exists(id) ? '/' & id  : '')
+  * resource = $
+* ($observations).entry
+  * request
+    * method = $exists(id) ? 'PUT' : 'POST'
+    * url = 'Observation' & ($exists(id) ? '/' & id  : '')
+  * resource = $
+)

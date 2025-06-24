@@ -1,0 +1,26 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+fastapi = "~=0.115.12"
+requests = "~=2.32.3"
+pandas = "~=1.5.3"
+fhir-pyrate = {extras = ["all"], version = "*"} # Lasciato flessibile non avendo una versione di partenza
+python-dotenv = "~=1.1.0"
+uvicorn = "~=0.34.2"
+motor = "~=3.7.0"
+python-multipart = "~=0.0.20"
+python-jose = "~=3.4.0"
+pyedflib = "~=0.1.40"
+boto3 = "~=1.38.5"
+aiohttp = "~=3.11.18"
+blis = "~=0.7.9"
+scipy = "~=1.13.1"
+mne = "~=1.8.0"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"

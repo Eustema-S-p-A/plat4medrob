@@ -1,0 +1,79 @@
+$dicom_endpoint := (
+  Instance: $resourceId('Endpoint?identifier=orthanc-endpoint')
+  InstanceOf: Endpoint
+  * identifier
+    * value = "orthanc-endpoint"
+  * status = "active"
+  * connectionType
+    * system = "http://terminology.hl7.org/CodeSystem/endpoint-connection-type"
+    * code = "dicom-wado-rs"
+  * name =  "ORTHANC WADO-RS endpoint"
+  * payloadType
+    * text = "DICOM WADO-RS"
+  * address = endpoint
+);
+
+$observation := (
+  Instance: $resourceId('ImagingStudy?identifier='&identifier.value)
+  InstanceOf: ImagingStudy
+  * identifier
+    * system = "urn:dicom:uid"
+    * value = identifier.value 
+  * status = status 
+  * encounter
+    * reference = $literal('Encounter?identifier='&encounter_id) 
+  * (modality).modality 
+    * system = "http://dicom.nema.org/resources/ontology/DCM"
+    * code = code 
+    * display = display 
+  * subject
+    * reference =  $literal('Patient?identifier='&subject.display) 
+  * started = started 
+  * endpoint 
+    * reference =  $exists($dicom_endpoint.id) ? $literal('Endpoint?identifier=orthanc-endpoint') : $reference($dicom_endpoint) 
+  * numberOfSeries = numberOfSeries 
+  * numberOfInstances = numberOfInstances 
+  * description = description 
+  * (series).series 
+    * uid = uid 
+    * number = number 
+    * modality 
+      * system = "http://dicom.nema.org/resources/ontology/DCM"
+      * code = modality.code 
+      * display = modality.display 
+    * description = description 
+    * numberOfInstances = numberOfInstances 
+    * endpoint 
+      * reference = $exists($dicom_endpoint.id) ? $literal('Endpoint?identifier=orthanc-endpoint') : $reference($dicom_endpoint)
+    * bodySite 
+      * display = bodysite.display 
+    * laterality 
+      * display = laterality.display 
+    * started = started 
+    * performer
+      * actor
+        * reference = $literal('Organization?identifier='&performer) 
+    * (instance).instance 
+      * uid = uid 
+      * sopClass 
+        * system = "http://dicom.nema.org/resources/ontology/DCM"
+        * code = sopClass.code 
+        * display = sopClass.display 
+      * number = number 
+      * title = title 
+);
+(
+Instance: $uuid()
+InstanceOf: Bundle
+* type = 'transaction'
+* ($dicom_endpoint).entry
+  * request
+    * method = $exists(id) ? 'PUT' : 'POST'
+    * url = 'Endpoint' & ($exists(id) ? '/' & id  : '')
+  * resource = $
+* ($observation).entry
+  * request
+    * method = $exists(id) ? 'PUT' : 'POST'
+    * url = 'ImagingStudy' & ($exists(id) ? '/' & id  : '')
+  * resource = $
+)
